@@ -6,7 +6,10 @@
   "license": "BSD-3-Clause",
   "source": "",
   "dependencies": [
-
+    {
+      "name": "puppet/archive",
+      "version_requirement": ">= 4.4.0 < 5.0.0"
+    }
   ],
   "operatingsystem_support": [
     {
