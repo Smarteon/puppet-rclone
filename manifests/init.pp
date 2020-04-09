@@ -1,6 +1,9 @@
-# @summary A short summary of the purpose of this class
+# @summary Download and install Rclone
 #
-# A description of what this class does
+# Install rclone binary and man page
+#
+# @param [String] version
+#   installed version
 #
 # @example
 #   include rclone
