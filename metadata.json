@@ -2,9 +2,11 @@
   "name": "smarteon-rclone",
   "version": "0.0.1",
   "author": "Smarteon Systems s.r.o",
-  "summary": "",
+  "summary": "Puppet Rclone management module",
   "license": "BSD-3-Clause",
-  "source": "",
+  "source": "https://github.com/Smarteon/puppet-rclone.git",
+  "project_page": "https://github.com/Smarteon/puppet-rclone",
+  "issues_url": "https://github.com/Smarteon/puppet-rclone/issues",
   "dependencies": [
     {
       "name": "puppet/archive",
@@ -15,7 +17,7 @@
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
-        "9"
+        "9", "10"
       ]
     },
     {
@@ -28,7 +30,7 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 4.10.0 < 7.0.0"
+      "version_requirement": ">= 6.0.0 < 7.0.0"
     }
   ],
   "pdk-version": "1.17.0",
