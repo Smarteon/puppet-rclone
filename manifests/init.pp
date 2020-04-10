@@ -42,8 +42,11 @@ class rclone(
     ensure  => directory,
   }
 
-  file { $man_page_dir:
-    ensure  => directory,
+  if !defined(File[$man_page_dir]) {
+    file { $man_page_dir:
+      ensure => directory,
+      before => File[$man_page],
+    }
   }
 
   archive { 'download rclone':
@@ -56,16 +59,21 @@ class rclone(
     require      => File[$install_dir]
   }
 
-  file { $binary:
-    source    => $instance_binary,
+  file { $instance_binary:
     owner     => 'root',
     mode      => '0755',
     subscribe => Archive['download rclone'],
   }
 
+  file { $binary:
+    ensure    => link,
+    target    => $instance_binary,
+    subscribe => Archive['download rclone'],
+  }
+
   file { $man_page:
-    source    => $instance_man_page,
-    owner     => 'root',
+    ensure    => link,
+    target    => $instance_man_page,
     subscribe => Archive['download rclone'],
   }
   ~> exec { 'rclone mandb':
