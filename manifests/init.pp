@@ -31,10 +31,14 @@ class rclone(
   $man_page_dir = '/usr/local/share/man/man1'
   $man_page = "${man_page_dir}/rclone.1"
 
-  file { '/opt':
-    ensure => directory,
+  if !defined(File['/opt']) {
+    file { '/opt':
+      ensure => directory,
+      before => File[$install_dir],
+    }
   }
-  -> file { $install_dir:
+
+  file { $install_dir:
     ensure  => directory,
   }
 
