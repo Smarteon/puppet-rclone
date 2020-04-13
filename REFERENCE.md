@@ -5,7 +5,23 @@
 
 **Classes**
 
+_Public Classes_
+
 * [`rclone`](#rclone): Download and install Rclone
+
+_Private Classes_
+
+* `rclone::install`: Ensures Rclone installed
+* `rclone::uninstall`: Removes rclone installed by this module
+
+**Functions**
+
+_Public Functions_
+
+
+_Private Functions_
+
+* `rclone::last_version`: Fetches the last released Rclone version from internet
 
 ## Classes
 
@@ -25,11 +41,13 @@ include rclone
 
 The following parameters are available in the `rclone` class.
 
-##### `version`
+##### `ensure`
 
-Data type: `String`
+Data type: `Pattern[/absent/, /latest/, /\d+\.\d+\.\d+/]`
 
-installed version
+installed version, can be 'latest', 'absent' or valid version string
 
-Default value: 'current'
+Default value: 'latest'
+
+## Functions
 
