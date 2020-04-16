@@ -23,7 +23,7 @@ describe 'rclone' do
         let(:params) { { ensure: 'latest' } }
 
         before(:each) do
-          stub_request(:get, 'https://downloads.rclone.org/version.txt').to_return(body: 'rclone v1000.0.1')
+          stub_request(:get, 'https://downloads.rclone.org/version.txt').to_return(body: "rclone v1000.0.1\n")
         end
 
         it { is_expected.to contain_class('rclone::install') }
