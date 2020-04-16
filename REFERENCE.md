@@ -14,6 +14,10 @@ _Private Classes_
 * `rclone::install`: Ensures Rclone installed
 * `rclone::uninstall`: Removes rclone installed by this module
 
+**Defined types**
+
+* [`rclone::config::s3`](#rcloneconfigs3): S3 confguration for Rclone.
+
 **Functions**
 
 _Public Functions_
@@ -48,6 +52,124 @@ Data type: `Pattern[/absent/, /latest/, /\d+\.\d+\.\d+/]`
 installed version, can be 'latest', 'absent' or valid version string
 
 Default value: 'latest'
+
+## Defined types
+
+### rclone::config::s3
+
+Ensures S3 Rclone configuration of given name and params. Include of `rclone` is required.
+Currently only AWS provider is supported.
+
+#### Examples
+
+##### 
+
+```puppet
+rclone::config::s3 { 's3_remote':
+  os_user           => 'my_user',
+  access_key_id     => 'SOME_ACCESS_KEY',
+  secret_access_key => 'SECRET_ACCESS_KEY',
+  region            => 'us-east-1',
+}
+```
+
+#### Parameters
+
+The following parameters are available in the `rclone::config::s3` defined type.
+
+##### `ensure`
+
+Data type: `Enum['present', 'absent']`
+
+configuration ensure
+
+Default value: 'present'
+
+##### `os_user`
+
+Data type: `String`
+
+operating system user - used to execute rclone commands, effective configuration owner
+
+##### `config_name`
+
+Data type: `String`
+
+configuration name - should be unique among Rclone configurations, defaults to title
+
+Default value: $title
+
+##### `access_key_id`
+
+Data type: `String`
+
+S3 provider's access_key_id, maps to Rclone `access_key_id` property
+
+##### `secret_access_key`
+
+Data type: `String`
+
+S3 provider's secret_access_key, maps to Rclone `secret_access_key` property
+
+##### `region`
+
+Data type: `String`
+
+S3 provider's region, maps to Rclone `region` property
+
+##### `s3_provider`
+
+Data type: `Enum['AWS']`
+
+S3 provider, maps to Rclone `provider` property
+
+Default value: 'AWS'
+
+##### `canned_acl`
+
+Data type: `Optional[String]`
+
+S3 canned ACL, maps to Rclone `acl` property
+
+Default value: `undef`
+
+##### `endpoint`
+
+Data type: `Optional[String]`
+
+S3 provider's endpoint, maps to Rclone `endpoint` property
+
+Default value: `undef`
+
+##### `location_constraint`
+
+Data type: `Optional[String]`
+
+S3 location_constraint, maps to Rclone `location_constraint` property
+
+Default value: `undef`
+
+##### `location_constraint`
+
+S3 location_constraint, maps to Rclone `location_constraint` property
+
+Default value: `undef`
+
+##### `server_side_encryption`
+
+Data type: `Optional[String]`
+
+S3 server_side_encryption, maps to Rclone `server_side_encryption` property
+
+Default value: `undef`
+
+##### `storage_class`
+
+Data type: `Optional[String]`
+
+S3 storage_class, maps to Rclone `storage_class` property
+
+Default value: `undef`
 
 ## Functions
 

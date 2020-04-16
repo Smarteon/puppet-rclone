@@ -17,7 +17,15 @@ Depends on following modules:
 ### Beginning with rclone
 ```puppet
 class { 'rclone':
-  version => 'desired rclone version'
+  ensure => 'desired rclone version'
+}
+
+# configure s3
+rclone::config::s3 { 'my_S3':
+  access_key_id     => 'AKI...',
+  secret_access_key => '...',
+  os_user           => 'my_user',
+  region            => 'eu-west-1',
 }
 ```
 
