@@ -16,6 +16,7 @@ _Private Classes_
 
 **Defined types**
 
+* [`rclone::config::gdrive`](#rcloneconfiggdrive): Google Drive confguration for Rclone.
 * [`rclone::config::s3`](#rcloneconfigs3): S3 confguration for Rclone.
 
 **Functions**
@@ -54,6 +55,92 @@ installed version, can be 'latest', 'absent' or valid version string
 Default value: 'latest'
 
 ## Defined types
+
+### rclone::config::gdrive
+
+Ensures Drive Rclone configuration of given name and params. Include of `rclone` is required.
+Support only service account credentials (token authentication requires human interaction when setup).
+
+#### Examples
+
+##### 
+
+```puppet
+rclone::config::gdrive { 'drive_remote':
+  os_user                     => 'my_user',
+  client_id                   => 'SOME_CLIENT_ID',
+  client_secret               => 'SOME_CLIENT_SECRET',
+  service_account_credentials => 'SERVICE_CREDENTIALS',
+}
+```
+
+#### Parameters
+
+The following parameters are available in the `rclone::config::gdrive` defined type.
+
+##### `ensure`
+
+Data type: `Enum['present', 'absent']`
+
+configuration ensure
+
+Default value: 'present'
+
+##### `os_user`
+
+Data type: `String`
+
+operating system user - used to execute rclone commands, effective configuration owner
+
+##### `config_name`
+
+Data type: `String`
+
+configuration name - should be unique among Rclone configurations, defaults to title
+
+Default value: $title
+
+##### `client_id`
+
+Data type: `String`
+
+Google drive client_id, maps to Rclone `client_id` property
+
+##### `client_secret`
+
+Data type: `String`
+
+Google drive client_secret, maps to Rclone `client_secret` property
+
+##### `service_account_credentials`
+
+Data type: `String`
+
+Google drive service_account_credentials, maps to Rclone `service_account_credentials` property
+
+##### `scope`
+
+Data type: `String`
+
+Google drive access scope, maps to Rclone `scope` property
+
+Default value: 'drive'
+
+##### `root_folder_id`
+
+Data type: `Optional[String]`
+
+Id of the drive root folder, maps to Rclone `root_folder_id` property
+
+Default value: `undef`
+
+##### `team_drive`
+
+Data type: `Optional[String]`
+
+Id of the team drive, maps to Rclone `team_drive` property
+
+Default value: `undef`
 
 ### rclone::config::s3
 
