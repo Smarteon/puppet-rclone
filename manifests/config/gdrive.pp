@@ -1,4 +1,4 @@
-# @summary Google Drive confguration for Rclone.
+# @summary Google Drive configuration for Rclone.
 #
 # Ensures Drive Rclone configuration of given name and params. Include of `rclone` is required.
 # Support only service account credentials (token authentication requires human interaction when setup).
@@ -41,43 +41,20 @@ define rclone::config::gdrive (
   Optional[String] $team_drive = undef,
 ) {
 
-  if ! defined(Class[rclone]) {
-    fail('You must include the rclone base class before using any defined resources')
+  $_options = {
+    client_id                   => $client_id,
+    client_secret               => $client_secret,
+    service_account_credentials => $service_account_credentials,
+    scope                       => $scope,
+    root_folder_id              => $root_folder_id,
+    team_drive                  => $team_drive,
   }
 
-  $_rclone_exec_defaults = {
-    user => $os_user,
-    path => '/usr/bin',
-    require => Class[rclone],
-  }
-
-  case $ensure {
-    'present': {
-
-      $_options = {
-        root_folder_id => $root_folder_id,
-        team_drive => $team_drive,
-      }
-        .filter |$key, $val| { $val != undef }.map |$key, $val| { "${key} ${val}" }.join(' ')
-
-      exec { default: *=> $_rclone_exec_defaults; "rclone create remote ${config_name} for user ${os_user}":
-        command => @("CMD")
-          rclone config create ${config_name} drive \
-          client_id ${client_id} client_secret ${client_secret} service_account_credentials ${service_account_credentials} scope ${scope} \
-          ${_options}
-          | CMD
-      }
-    }
-
-    'absent': {
-      exec { default: *=> $_rclone_exec_defaults; "rclone delete remote ${config_name} for user ${os_user}":
-        command => "rclone config delete ${config_name}",
-      }
-    }
-
-    default: {
-      fail("Invalid ensure value '${ensure}'")
-    }
+  rclone::config { $config_name:
+    ensure  => $ensure,
+    os_user => $os_user,
+    type    => 'drive',
+    options => $_options,
   }
 
 }

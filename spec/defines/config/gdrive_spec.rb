@@ -27,8 +27,8 @@ describe 'rclone::config::gdrive' do
       it {
         is_expected.to contain_exec('rclone create remote test_r for user user')
           .with(
-            command: 'rclone config create test_r drive \\' \
-              "\nclient_id gdrive_id client_secret gdrive_secret service_account_credentials SAC scope drive \\\n\n",
+            command: 'rclone config create test_r drive ' \
+              'client_id gdrive_id client_secret gdrive_secret service_account_credentials SAC scope drive',
             user: 'user',
             path: '/usr/bin',
           )
@@ -46,9 +46,9 @@ describe 'rclone::config::gdrive' do
         it {
           is_expected.to contain_exec('rclone create remote test_r for user user')
             .with(
-              command: 'rclone config create test_r drive \\' \
-                "\nclient_id gdrive_id client_secret gdrive_secret service_account_credentials SAC scope drive \\" \
-                "\nroot_folder_id root_id team_drive team_id\n",
+              command: 'rclone config create test_r drive ' \
+                'client_id gdrive_id client_secret gdrive_secret service_account_credentials SAC scope drive ' \
+                'root_folder_id root_id team_drive team_id',
               user: 'user',
               path: '/usr/bin',
             )

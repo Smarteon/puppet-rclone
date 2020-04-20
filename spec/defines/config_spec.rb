@@ -2,14 +2,13 @@
 
 require 'spec_helper'
 
-describe 'rclone::config::s3' do
+describe 'rclone::config' do
   let(:title) { 'test_r' }
   let(:params) do
     {
       os_user: 'user',
-      access_key_id: 'aws_id',
-      secret_access_key: 'aws_key',
-      region: 'eu-west-1',
+      type: 'local',
+      options: {},
     }
   end
 
@@ -27,31 +26,22 @@ describe 'rclone::config::s3' do
       it {
         is_expected.to contain_exec('rclone create remote test_r for user user')
           .with(
-            command: 'rclone config create test_r s3 ' \
-              'provider AWS env_auth false access_key_id aws_id secret_access_key aws_key region eu-west-1',
+            command: 'rclone config create test_r local',
             user: 'user',
             path: '/usr/bin',
           )
           .that_requires('Class[rclone]')
       }
 
-      context 'with optional params' do
+      context 'with options' do
         let(:params) do
-          super().merge(
-            canned_acl: 'private',
-            endpoint: 'some-s3.com',
-            location_constraint: 'eu-west-1',
-            server_side_encryption: 'AES256',
-            storage_class: 'STANDARD',
-          )
+          super().merge(options: { option_a: 'some_val', option_b: :undef, option_c: '\\a $"&' })
         end
 
         it {
           is_expected.to contain_exec('rclone create remote test_r for user user')
             .with(
-              command: 'rclone config create test_r s3 ' \
-                'provider AWS env_auth false access_key_id aws_id secret_access_key aws_key region eu-west-1 ' \
-                'acl private endpoint some-s3.com location_constraint eu-west-1 server_side_encryption AES256 storage_class STANDARD',
+              command: 'rclone config create test_r local option_a some_val option_c \\\a\ \$\\"\&',
               user: 'user',
               path: '/usr/bin',
             )

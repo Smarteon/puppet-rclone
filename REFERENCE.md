@@ -16,8 +16,9 @@ _Private Classes_
 
 **Defined types**
 
-* [`rclone::config::gdrive`](#rcloneconfiggdrive): Google Drive confguration for Rclone.
-* [`rclone::config::s3`](#rcloneconfigs3): S3 confguration for Rclone.
+* [`rclone::config`](#rcloneconfig): General configuration for Rclone.
+* [`rclone::config::gdrive`](#rcloneconfiggdrive): Google Drive configuration for Rclone.
+* [`rclone::config::s3`](#rcloneconfigs3): S3 configuration for Rclone.
 
 **Functions**
 
@@ -55,6 +56,95 @@ installed version, can be 'latest', 'absent' or valid version string
 Default value: 'latest'
 
 ## Defined types
+
+### rclone::config
+
+Ensures Rclone configuration of given name, type and params. Include of `rclone` is required.
+
+#### Examples
+
+##### 
+
+```puppet
+rclone::config { 'my_remote':
+  os_user => 'my_user',
+  type    => 'ftp',
+  options => {...}
+}
+```
+
+#### Parameters
+
+The following parameters are available in the `rclone::config` defined type.
+
+##### `ensure`
+
+Data type: `Enum['present', 'absent']`
+
+configuration ensure
+
+Default value: 'present'
+
+##### `os_user`
+
+Data type: `String`
+
+operating system user - used to execute rclone commands, effective configuration owner
+
+##### `type`
+
+Data type: `Enum[
+    'amazon cloud drive',
+    'azureblob',
+    'b2',
+    'box',
+    'crypt',
+    'cache',
+    'chunker',
+    'drive',
+    'dropbox',
+    'fichier',
+    'ftp',
+    'google cloud storage',
+    'google photos',
+    'http',
+    'swift',
+    'hubic',
+    'jottacloud',
+    'koofr',
+    'local',
+    'mailru',
+    'mega',
+    'memory',
+    'onedrive',
+    'opendrive',
+    'pcloud',
+    'premiumizeme',
+    'putio',
+    'qingstor',
+    's3',
+    'sftp',
+    'sharefile',
+    'sugarsync',
+    'union',
+    'webdav',
+    'yandex']`
+
+configuration remote type
+
+##### `options`
+
+Data type: `Hash[String, Optional[String]]`
+
+configuration options - Hash of options for `rclone config` command
+
+##### `config_name`
+
+Data type: `String`
+
+configuration name - should be unique among Rclone configurations, defaults to title
+
+Default value: $title
 
 ### rclone::config::gdrive
 

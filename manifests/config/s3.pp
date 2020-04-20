@@ -1,4 +1,4 @@
-# @summary S3 confguration for Rclone.
+# @summary S3 configuration for Rclone.
 #
 # Ensures S3 Rclone configuration of given name and params. Include of `rclone` is required.
 # Currently only AWS provider is supported.
@@ -52,46 +52,24 @@ define rclone::config::s3 (
   Optional[String] $storage_class = undef,
 ) {
 
-  if ! defined(Class[rclone]) {
-    fail('You must include the rclone base class before using any defined resources')
+  $_options = {
+    provider               => $s3_provider,
+    env_auth               => 'false',
+    access_key_id          => $access_key_id,
+    secret_access_key      => $secret_access_key,
+    region                 => $region,
+    acl                    => $canned_acl,
+    endpoint               => $endpoint,
+    location_constraint    => $location_constraint,
+    server_side_encryption => $server_side_encryption,
+    storage_class          => $storage_class,
   }
 
-  $_rclone_exec_defaults = {
-    user => $os_user,
-    path => '/usr/bin',
-    require => Class[rclone],
-  }
-
-  case $ensure {
-    'present': {
-
-      $_options = {
-        acl => $canned_acl,
-        endpoint => $endpoint,
-        location_constraint => $location_constraint,
-        server_side_encryption => $server_side_encryption,
-        storage_class => $storage_class,
-      }
-        .filter |$key, $val| { $val != undef }.map |$key, $val| { "${key} ${val}" }.join(' ')
-
-      exec { default: *=> $_rclone_exec_defaults; "rclone create remote ${config_name} for user ${os_user}":
-        command => @("CMD")
-          rclone config create ${config_name} s3 \
-          provider ${s3_provider} env_auth false access_key_id ${access_key_id} secret_access_key ${secret_access_key} region ${region} \
-          ${_options}
-          | CMD
-      }
-    }
-
-    'absent': {
-      exec { default: *=> $_rclone_exec_defaults; "rclone delete remote ${config_name} for user ${os_user}":
-        command => "rclone config delete ${config_name}",
-      }
-    }
-
-    default: {
-      fail("Invalid ensure value '${ensure}'")
-    }
+  rclone::config { $config_name:
+    ensure  => $ensure,
+    os_user => $os_user,
+    type    => 's3',
+    options => $_options,
   }
 
 }
