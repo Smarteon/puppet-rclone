@@ -55,3 +55,16 @@ pdk test unit
 ```bash
 bundle exec rake strings:generate:reference
 ```
+
+### Releasing
+Build and release the module to puppet forge (note currently validation and changelog doesn't work)
+```bash
+pdk build
+pdk release
+```
+Tag the release in git
+```bash
+git tag -a v<version> -m "message"
+git push --tags
+```
+Bump the version to next devel and make pull request.
