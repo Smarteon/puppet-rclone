@@ -38,13 +38,13 @@ Module in early stage, anything can break anytime.
 ## Development
 *Prerequisites*: Installed ruby, gem and bundler and also [PDK](https://puppet.com/docs/pdk/1.x/pdk_install.html) can help.
 ```bash
-bundle update
-bundle install
+pdk bundle update
+pdk bundle install
 ```
 
 ### Run unit tests
 ```bash
-bundle exec rake spec
+pdk bundle exec rake spec
 ```
 or with PDK
 ```bash
