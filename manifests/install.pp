@@ -10,6 +10,7 @@ class rclone::install {
 
   $_architecture = $facts['os']['architecture'] ? {
     /arm.*/          => 'arm',
+    /aarch64/        => 'arm64',
     /(amd64|x86_64)/ => 'amd64',
   }
 
